@@ -10,14 +10,9 @@ import os
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'colombiaresort'
-#app.config['MONGO_URI'] = 'mongodb://localhost:27017/colombiaresort'
-#app.config['MONGO_URI'] = 'mongodb://app:app@ds121535.mlab.com:21535/heroku_2wt7985c'
 localhost = 'mongodb://localhost:27017/colombiaresort'
-#server = (os.environ['MONGODB_URI'])
-#print os.environ.get('DB_URI', None)
 app.config['MONGO_URI'] = os.environ.get('DB_URI', localhost)
 
-#mongodb://heroku_2wt7985c:orce0m9nj9bcslenhrks2t3ktp@ds121535.mlab.com:21535/heroku_2wt7985c
 
 mongo = PyMongo(app)
 
@@ -72,10 +67,10 @@ def get_rooms():
   collection_reservations = mongo.db.reservations
 
   responseRooms = []
-  
+  response = []
   responseHotels = collection_hotels.find_one({'Area_Code' : city_param})
   for room in collection_rooms.find({"Id_Hotel":responseHotels['Id_Hotel'], "Hosts": int(hosts_param) , "Room_Type" : room_type_param}):
-    
+
       add = True
       for reserve in collection_reservations.find({"Number_Room": room['Number_Room'], "State": "Active"}):
          
@@ -87,9 +82,19 @@ def get_rooms():
 
 
       if add:
-        responseRooms.append({"room_type" : room['Room_Type'],"capacity" :room['Hosts'],"price" :room['Price'],"currency" :responseHotels['Currency'],"room_thumbnail" :room['Room_Thumbnail'],"beds" :{"simple": room['Single_Bed'],"double": room['Double_Bed']}})
-
-  response= {"hotel_id" : responseHotels['Id_Hotel'],
+        beds = {"simple": room['Single_Bed'],"double": room['Double_Bed']}
+        validator = True
+        for dato in responseRooms:
+          if dato['beds'] == beds :
+            validator = False
+            break
+            pass
+          pass
+        if validator:
+          responseRooms.append({"room_type" : room['Room_Type'],"capacity" :room['Hosts'],"price" :room['Price'],"currency" :responseHotels['Currency'],"room_thumbnail" :room['Room_Thumbnail'],"beds" :{"simple": room['Single_Bed'],"double": room['Double_Bed']}})
+          pass
+        
+  response = {"hotel_id" : responseHotels['Id_Hotel'],
                         "hotel_name" :responseHotels['Name'],
                         "hotel_location":{"address":responseHotels['Address'],
                                           "lat":responseHotels['Latitude'],
