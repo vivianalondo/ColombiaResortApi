@@ -5,12 +5,19 @@ from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'colombiaresort'
 #app.config['MONGO_URI'] = 'mongodb://localhost:27017/colombiaresort'
-app.config['MONGO_URI'] = 'mongodb://app:app@ds121535.mlab.com:21535/heroku_2wt7985c'
+#app.config['MONGO_URI'] = 'mongodb://app:app@ds121535.mlab.com:21535/heroku_2wt7985c'
+localhost = 'mongodb://localhost:27017/colombiaresort'
+#server = (os.environ['MONGODB_URI'])
+#print os.environ.get('DB_URI', None)
+app.config['MONGO_URI'] = os.environ.get('DB_URI', localhost)
+
+#mongodb://heroku_2wt7985c:orce0m9nj9bcslenhrks2t3ktp@ds121535.mlab.com:21535/heroku_2wt7985c
 
 mongo = PyMongo(app)
 
