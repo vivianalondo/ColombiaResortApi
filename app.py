@@ -5,7 +5,7 @@ from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
 from datetime import datetime
-from flask_cors import CORS
+#from flask_cors import CORS
 import os
 
 app = Flask(__name__)
