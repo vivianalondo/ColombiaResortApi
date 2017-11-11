@@ -56,7 +56,7 @@ class model:
 		        Leave_Date = datetime.strptime(reserve['Leave_Date'], '%Y-%m-%d')
 
 		        if ((Arrive_Date <= arrive_date_param <= Leave_Date) or (Arrive_Date <= leave_date_param <= Leave_Date)) :
-		            add = False 
+		            add = False
 
 
 		    if add:

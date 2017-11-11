@@ -24,7 +24,7 @@ def get_rooms():
   city_param = request.args.get('city')
   hosts_param = request.args.get('hosts')
   room_type_param = request.args.get('room_type')
-  
+
   return jsonify(m.get_disponible_rooms(mongo,arrive_date_param, leave_date_param, city_param ,hosts_param, room_type_param))
 
 @app.route('/V1/rooms/reserve', methods=['POST'])
@@ -41,7 +41,7 @@ def add_reserva():
   doc_id = request.json['user']['doc_id']
   email = request.json['user']['email']
   phone_number = request.json['user']['phone_number']
- 
+
   return jsonify(m.create_reserve(mongo, arrive_date,leave_date,room_type,capacity,simple,double,hotel_id,doc_type,doc_id,email,phone_number))
 
 
