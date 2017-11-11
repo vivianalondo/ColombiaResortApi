@@ -1,12 +1,9 @@
 # mongo.py
 
-from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_pymongo import PyMongo
-from flask_cors import CORS
 from datetime import datetime
-import os
 import model
 import conexion
 
@@ -29,7 +26,7 @@ def get_rooms():
   room_type_param = request.args.get('room_type')
   
   return jsonify(m.get_disponible_rooms(mongo,arrive_date_param, leave_date_param, city_param ,hosts_param, room_type_param))
-  
+
 @app.route('/V1/rooms/reserve', methods=['POST'])
 def add_reserva():
 
@@ -49,4 +46,4 @@ def add_reserva():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

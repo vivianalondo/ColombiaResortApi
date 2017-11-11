@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 
 class connection:
-	
+
 	def create_connection(self, dbname, localhost , enviroment):
 		app = Flask(__name__)
 		CORS(app)

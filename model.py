@@ -66,11 +66,9 @@ class model:
 		        if dato['beds'] == beds :
 		          validator = False
 		          break
-		          pass
-		        pass
 		      if validator:
 		        responseRooms.append({"room_type" : room['Room_Type'],"capacity" :room['Hosts'],"price" :room['Price'],"currency" :responseHotels['Currency'],"description":room["Description"],"room_thumbnail" :room['Room_Thumbnail'],"beds" :{"simple": room['Single_Bed'],"double": room['Double_Bed']}})
-		        pass
+		        
 		        
 		response = {"hotel_id" : responseHotels['Id_Hotel'],
 		                      "hotel_name" :responseHotels['Name'],
@@ -102,12 +100,12 @@ class model:
 	          Leave_Date = datetime.strptime(reserve['Leave_Date'], '%Y-%m-%d')
 	          response.append({ "room" : room['Number_Room'],"Arrive_DateRes" : Arrive_Date,"date_arrive_date" : date_arrive_date,"Leave_DateRes" : Leave_Date})
 	          if ((Arrive_Date <= date_arrive_date <= Leave_Date) or (Arrive_Date <= date_leave_date <= Leave_Date)) :
-	              add = False 
+	              add = False
 
 
 
 	      if add:
-	        reserva = collection_reservations.insert(
+	        collection_reservations.insert(
 	        {"Id_Reserva":"CR170002",
 	        "State":"Active",
 	        "Id_Hotel":hotel_id,
@@ -119,7 +117,6 @@ class model:
 	        "Email":email,
 	        "Cell_Phone":phone_number})
 	        return ({"reservation_id":"CR170002"})
-	        break
 	  
 	  return ({"message": "Reserva no realizada"})
 		
