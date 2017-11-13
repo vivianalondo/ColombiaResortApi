@@ -1,0 +1,6 @@
+[run]
+source =
+  ColombiaResortApiTest
+  app
+[report]
+ignore_errors = True
