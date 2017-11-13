@@ -1,5 +1,4 @@
 import app
-import os
 import unittest
 #import sys
 #Anexo el Directorio en donde se encuentra la clase a llamar
