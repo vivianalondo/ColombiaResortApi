@@ -103,10 +103,10 @@ class model:
 	              add = False
 
 
-
+	      arrive = arrive_date.replace('-', '')
 	      if add:
 	        collection_reservations.insert(
-	        {"Id_Reserva":"CR170002",
+	        {"Id_Reserva":"CR"+doc_id+hotel_id+room['Number_Room']+arrive,
 	        "State":"Active",
 	        "Id_Hotel":hotel_id,
 	        "Number_Room":room['Number_Room'],
@@ -116,7 +116,27 @@ class model:
 	        "Identification":doc_id,
 	        "Email":email,
 	        "Cell_Phone":phone_number})
-	        return ({"reservation_id":"CR170002"})
+	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
 	  
-	  return ({"message": "Reserva no realizada"})
-		
+	  return ({"message": arrive})
+
+
+	def list_reservations(self,conexion):
+
+  	  	collection_reservations = conexion.db.reservations
+
+	  	response = []
+	 	for reserve in collection_reservations.find():
+
+		       	response.append({"Id_Reserva":reserve["Id_Reserva"],
+		        "State":reserve["State"],
+		        "Id_Hotel":reserve["Id_Hotel"],
+		        "Number_Room":reserve["Number_Room"],
+		        "Arrive_Date":reserve["Arrive_Date"],
+		        "Leave_Date":reserve["Leave_Date"],
+		        "Document_Type":reserve["Document_Type"],
+		        "Identification":reserve["Identification"],
+		        "Email":reserve["Email"],
+		        "Cell_Phone":reserve["Cell_Phone"]})
+		  	
+	  	return ({"Reservas": response})

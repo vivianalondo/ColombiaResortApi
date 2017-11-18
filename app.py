@@ -44,6 +44,10 @@ def add_reserva():
 
   return jsonify(m.create_reserve(mongo, arrive_date,leave_date,room_type,capacity,simple,double,hotel_id,doc_type,doc_id,email,phone_number))
 
+@app.route('/V1/AllReservations', methods=['GET'])
+def get_all_reservations():
+  return jsonify(m.list_reservations(mongo))
+
 
 if __name__ == '__main__':
     app.run()
