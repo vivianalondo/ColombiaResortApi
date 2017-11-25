@@ -2,6 +2,7 @@ import app
 import unittest
 import json
 
+
 class ColombiaResortTestCase(unittest.TestCase):
 
   def setUp(self):
@@ -49,6 +50,17 @@ class ColombiaResortTestCase(unittest.TestCase):
     data = json.loads(result.get_data(as_text=True))
     self.assertEqual(data['rooms'], [])
     print(data['rooms'])
+
+  def test_get_all_reservations(self):
+    # sends HTTP GET request to the application
+    # on the specified path
+
+    result = self.cliente.get('/V1/AllReservations')
+
+    # assert the status code of the response
+    self.assertEqual(result.status_code, 200)
+
+    #print(result.data)
 
 
 if __name__ == '__main__':
