@@ -2,25 +2,27 @@ import model
 import app
 import unittest
 import conexion
+from datetime import datetime
 from flask_pymongo import PyMongo
 from flask import Flask, current_app
-
 
 #import sys
 #Anexo el Directorio en donde se encuentra la clase a llamar
 #sys.path.append('.app')
 app = Flask(__name__)
 conn =conexion.connection()
-app2 = conn.create_connection('colombiaresort','mongodb://localhost:27017/colombiaresort','DB_URI')
-mongo = PyMongo(app2)
+app = conn.create_connection('colombiaresort','mongodb://localhost:27017/colombiaresort','DB_URI')
+mongo = PyMongo(app)
 cliente = model.model()
+
 
 
 class ColombiaResortUnitTestCaseUni(unittest.TestCase):
 
 
   def test_json(self):
-
+    # sends HTTP GET request to the application
+    # on the specified path
     result = {
     "Id_Reserva" : "CR170010",
     "State" : "InActive",
@@ -34,22 +36,26 @@ class ColombiaResortUnitTestCaseUni(unittest.TestCase):
     "Cell_Phone" : "3007654532"
 }
     # assert the status code of the response
-    self.assertEqual(result,{
-      "Id_Reserva" : "CR170010",
-      "State" : "InActive",
-      "Id_Hotel" : "01",
-      "Number_Room" : "301",
-      "Arrive_Date" : "2017-04-16",
-      "Leave_Date" : "2017-04-19",
-      "Document_Type" : "01",
-      "Identification" : "1152439890",
-      "Email" : "usuario5@correo.com",
-      "Cell_Phone" : "3007654532"
-      })
-    #print (result)
+    with app.app_context():
+
+      self.assertEqual(result,{
+        "Id_Reserva" : "CR170010",
+        "State" : "InActive",
+        "Id_Hotel" : "01",
+        "Number_Room" : "301",
+        "Arrive_Date" : "2017-04-16",
+        "Leave_Date" : "2017-04-19",
+        "Document_Type" : "01",
+        "Identification" : "1152439890",
+        "Email" : "usuario5@correo.com",
+        "Cell_Phone" : "3007654532"
+        })
+      print ("Test 1 Ready")
 
   def test_get_all_hotels_info(self):
-
+    # with model.model_context():
+    # sends HTTP GET request to the application
+    # on the specified path
     with app.app_context():
     # within this block, current_app points to app.
 
@@ -533,16 +539,31 @@ class ColombiaResortUnitTestCaseUni(unittest.TestCase):
     ]
   }
 })
-      #print (result)
+      print ("Test 2 Ready")
 
-  # def test_get_disponible_rooms(self):
-  #   # sends HTTP GET request to the application
-  #   # on the specified path
-  #   result = self.cliente.get_disponible_rooms(self.mongo, "20171224", "20171225", 050010)
+  def test_get_disponible_rooms(self):
 
-  #   # assert the status code of the response
-  #   self.assertEqual(result, [])
-  #   print (result)
+    with app.app_context():
 
-if __name__ == '_main_':
+      self.Arrive_Date = datetime.strptime("2017-12-12", '%Y-%m-%d')
+      self.Leave_Date = datetime.strptime("2017-12-12", '%Y-%m-%d')
+
+      result = cliente.get_disponible_rooms(mongo,self.Arrive_Date,self.Leave_Date,"05001","4","S")
+      self.assertEqual(result, {
+  "check_in": "15:00", 
+  "check_out": "13:00", 
+  "hotel_id": "01", 
+  "hotel_location": {
+    "address": "Calle 105 #83 - 04", 
+    "lat": "6.26695330174546", 
+    "long": "-75.56911130000003"
+  }, 
+  "hotel_name": "Colombia Resort Spring", 
+  "hotel_thumbnail": "https://seedubaitours.com/wp-content/uploads/2014/08/Image-11.jpg", 
+  "hotel_website": "www.colombiaresort.com/170/med/01", 
+  "rooms": []
+})
+      print("Test 3 Ready")
+
+if __name__ == '__main__':
     unittest.main()
