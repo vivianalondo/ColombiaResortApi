@@ -118,4 +118,4 @@ class model:
 	        "Cell_Phone":phone_number})
 	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
 	  
-	  return ({"message": arrive})
+	  return ({"message": "Su reserva no fue realizada"})

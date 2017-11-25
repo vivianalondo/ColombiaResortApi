@@ -16,7 +16,6 @@ mongo = PyMongo(app)
 cliente = model.model()
 
 
-
 class ColombiaResortUnitTestCaseUni(unittest.TestCase):
 
 
@@ -564,6 +563,16 @@ class ColombiaResortUnitTestCaseUni(unittest.TestCase):
   "rooms": []
 })
       print("Test 3 Ready")
+
+  def test_create_reserve(self):
+
+    with app.app_context():
+
+      result = cliente.create_reserve(mongo,"2017-12-12","2017-12-12","S","4","0","2","01","CC","12345","lopera@lope","311123")
+      self.assertEqual(result,{"message": "Su reserva no fue realizada"})
+    print("Test 4 Ready")
+
+
 
 if __name__ == '__main__':
     unittest.main()
