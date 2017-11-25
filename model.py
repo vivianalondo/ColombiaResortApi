@@ -140,3 +140,36 @@ class model:
 		        "Cell_Phone":reserve["Cell_Phone"]})
 		  	
 	  	return ({"Reservas": response})
+
+
+	def list_reservations_by_user(self,conexion, email):
+
+  	  	collection_reservations = conexion.db.reservations
+  	  	collection_rooms = conexion.db.rooms
+
+	  	response = []
+	  	room = []
+	 	for reserve in collection_reservations.find({"Email": email, "State": "Active"}):
+	 		
+	 		
+	 		room.append(collection_rooms.find({"Id_Hotel":reserve["Id_Hotel"], "Number_Room":reserve["Number_Room"]})[0]["Room_Type"])
+
+	       	response.append(
+	       			{
+	        			"State":reserve["State"],
+	        			"reserve_id":reserve["Id_Reserva"],
+	        			"arrive_date":reserve["Arrive_Date"],
+	        			"leave_date":reserve["Leave_Date"],
+	        			"reservation": room})
+
+		  	
+	  	return ({"reservations": response})
+
+
+
+	def validate_user(self,token):
+
+	  	return (token)
+
+
+

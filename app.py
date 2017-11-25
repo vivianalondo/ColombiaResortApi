@@ -49,5 +49,12 @@ def get_all_reservations():
   return jsonify(m.list_reservations(mongo))
 
 
+@app.route('/V1/reservations', methods=['GET'])
+def get_my_reservations():
+  token = request.headers['Authorization']
+  email = m.validate_user(token)
+  return jsonify(m.list_reservations_by_user(mongo,email))
+
+
 if __name__ == '__main__':
     app.run()
