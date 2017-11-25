@@ -1,15 +1,15 @@
 
 from datetime import datetime
 
-class model:
-			
+class model:			
+
 	def get_all_hotels_info(self,conexion):
 		hotels = conexion.db.hotels
-  		rooms = conexion.db.rooms
-  
-  		responseHotels = []
-  		responseRooms = []
-  
+		rooms = conexion.db.rooms
+
+		responseHotels = []
+		responseRooms = []
+
 	  	for hotel in hotels.find():
 		    #hotel = hotels.find({Id_hotel: room['Id_Hotel']})
 		    for room in rooms.find({"Id_Hotel":hotel['Id_Hotel']}):
@@ -103,10 +103,10 @@ class model:
 	              add = False
 
 
-
+	      arrive = arrive_date.replace('-', '')
 	      if add:
 	        collection_reservations.insert(
-	        {"Id_Reserva":"CR170002",
+	        {"Id_Reserva":"CR"+doc_id+hotel_id+room['Number_Room']+arrive,
 	        "State":"Active",
 	        "Id_Hotel":hotel_id,
 	        "Number_Room":room['Number_Room'],
@@ -116,7 +116,6 @@ class model:
 	        "Identification":doc_id,
 	        "Email":email,
 	        "Cell_Phone":phone_number})
-	        return ({"reservation_id":"CR170002"})
+	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
 	  
-	  return ({"message": "Reserva no realizada"})
-		
+	  return ({"message": arrive})
