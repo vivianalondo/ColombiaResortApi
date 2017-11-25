@@ -210,4 +210,16 @@ class model:
 	  	return (token)
 
 
+  	def cancel_reservation(self, conexion, id_reservation):
+
+  		collection_reservations = conexion.db.reservations
+
+  		
+  		collection_reservations.update_one( { "Id_Reserva": id_reservation} , {"$set":{ "State" : "Cancel" }}, upsert=False )
+  		if collection_reservations.find_one({"Id_Reserva": id_reservation})["State"] =="Active":
+  			return ({"message": "Su reserva no fue cancelada exitosamente!!"})
+  			pass
+	  	return ({"message": "Su reserva fue cancelada exitosamente!!"})
+
+
 
