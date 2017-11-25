@@ -573,6 +573,233 @@ class ColombiaResortUnitTestCaseUni(unittest.TestCase):
     print("Test 4 Ready")
 
 
+  def test_list_reservations(self):
+
+      with app.app_context():
+
+        result = cliente.list_reservations(mongo)
+        self.assertEqual(result,{
+  "Reservas": [
+    {
+      "Arrive_Date": "2017-11-01", 
+      "Cell_Phone": "3001234567", 
+      "Document_Type": "CC", 
+      "Email": "usuario@correo.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170001", 
+      "Identification": "1234567890", 
+      "Leave_Date": "2017-11-03", 
+      "Number_Room": "203", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-12-01", 
+      "Cell_Phone": "3001234567", 
+      "Document_Type": "01", 
+      "Email": "usuario@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "1234567890", 
+      "Leave_Date": "2017-12-03", 
+      "Number_Room": "101", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-12-01", 
+      "Cell_Phone": "3056525421", 
+      "Document_Type": "01", 
+      "Email": "cliente@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170003", 
+      "Identification": "0987654321", 
+      "Leave_Date": "2017-12-03", 
+      "Number_Room": "401", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-11-01", 
+      "Cell_Phone": "3001234523", 
+      "Document_Type": "01", 
+      "Email": "usuario2@correo.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170004", 
+      "Identification": "1234567888", 
+      "Leave_Date": "2017-11-03", 
+      "Number_Room": "201", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-11-01", 
+      "Cell_Phone": "3001567343", 
+      "Document_Type": "01", 
+      "Email": "usuario3@correo.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170005", 
+      "Identification": "12345677777", 
+      "Leave_Date": "2017-11-03", 
+      "Number_Room": "301", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-12-01", 
+      "Cell_Phone": "30034565456", 
+      "Document_Type": "01", 
+      "Email": "usuario4@correo.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170006", 
+      "Identification": "98756712341", 
+      "Leave_Date": "2017-12-03", 
+      "Number_Room": "101", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-10-01", 
+      "Cell_Phone": "3007654532", 
+      "Document_Type": "01", 
+      "Email": "usuario5@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170007", 
+      "Identification": "1152439890", 
+      "Leave_Date": "2017-10-03", 
+      "Number_Room": "401", 
+      "State": "InActive"
+    }, 
+    {
+      "Arrive_Date": "2017-10-21", 
+      "Cell_Phone": "3056525421", 
+      "Document_Type": "01", 
+      "Email": "cliente@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170008", 
+      "Identification": "0987654321", 
+      "Leave_Date": "2017-10-25", 
+      "Number_Room": "402", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-10-21", 
+      "Cell_Phone": "3007654532", 
+      "Document_Type": "01", 
+      "Email": "usuario5@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170009", 
+      "Identification": "1152439890", 
+      "Leave_Date": "2017-10-25", 
+      "Number_Room": "401", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-04-16", 
+      "Cell_Phone": "3007654532", 
+      "Document_Type": "01", 
+      "Email": "usuario5@correo.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170010", 
+      "Identification": "1152439890", 
+      "Leave_Date": "2017-04-19", 
+      "Number_Room": "301", 
+      "State": "InActive"
+    }, 
+    {
+      "Arrive_Date": "2017-04-21", 
+      "Cell_Phone": "3056525421", 
+      "Document_Type": "01", 
+      "Email": "cliente@correo.com", 
+      "Id_Hotel": "02", 
+      "Id_Reserva": "CR170011", 
+      "Identification": "0987654321", 
+      "Leave_Date": "2017-04-25", 
+      "Number_Room": "402", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-12-12", 
+      "Cell_Phone": "321", 
+      "Document_Type": "CC", 
+      "Email": "yeifer@yh", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "123", 
+      "Leave_Date": "2017-12-12", 
+      "Number_Room": "102", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-12-12", 
+      "Cell_Phone": "3456787687", 
+      "Document_Type": "cc", 
+      "Email": "jhonatorozco@gmail.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "1040046999", 
+      "Leave_Date": "2017-12-12", 
+      "Number_Room": "103", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-10-28", 
+      "Cell_Phone": "2424241", 
+      "Document_Type": "cc", 
+      "Email": "yoinergomez@gmail.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "108989786", 
+      "Leave_Date": "2017-10-31", 
+      "Number_Room": "101", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-10-27", 
+      "Cell_Phone": "1511512", 
+      "Document_Type": "cc", 
+      "Email": "yoinergomez@gmail.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "18978333333", 
+      "Leave_Date": "2017-10-30", 
+      "Number_Room": "202", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2018-12-12", 
+      "Cell_Phone": "321", 
+      "Document_Type": "CC", 
+      "Email": "yeifer@yh", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "123", 
+      "Leave_Date": "2018-12-12", 
+      "Number_Room": "102", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2017-11-28", 
+      "Cell_Phone": "3214567890", 
+      "Document_Type": "cc", 
+      "Email": "leidybd@gmail.com", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR170002", 
+      "Identification": "719632147", 
+      "Leave_Date": "2017-11-30", 
+      "Number_Room": "201", 
+      "State": "Active"
+    }, 
+    {
+      "Arrive_Date": "2018-10-31", 
+      "Cell_Phone": "321", 
+      "Document_Type": "CC", 
+      "Email": "yeiferhh@yh", 
+      "Id_Hotel": "01", 
+      "Id_Reserva": "CR1230110220181031", 
+      "Identification": "123", 
+      "Leave_Date": "2018-10-31", 
+      "Number_Room": "102", 
+      "State": "Active"
+    }
+  ]
+})
+      print("Test 5 Ready")
+
 
 if __name__ == '__main__':
     unittest.main()
