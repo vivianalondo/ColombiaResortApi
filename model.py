@@ -1,15 +1,33 @@
 
 from datetime import datetime
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import auth
+from firebase import firebase
+
+
+cred = credentials.Certificate('credentialtest.json')
+firebase_admin.initialize_app(cred, {
+    "apiKey": "AIzaSyAWVcK8FQHJ5mnGZOPj5MBLQXXSr9PndKM",
+    "authDomain": "labcompumovilvl.firebaseapp.com",
+    "databaseURL": "https://labcompumovilvl.firebaseio.com",
+    "storageBucket": "labcompumovilvl.appspot.com"
+})
+
+
+#token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ3NjA3YWVhMDdlOTQzNzA1MTdhNjEyNmExODRkMTI3MmE2OTY1OTEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbGFiY29tcHVtb3ZpbHZsIiwibmFtZSI6IlNhbmRyYSBWaXZpYW5hIExvbmRvw7FvIENvcnTDqXMiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDYuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy10eUlUdFNyYWYwYy9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BTlEwa2Y1Uy1sblZ5dVJmRmtqTmpvODZGT21XcDg2N0pRL3M5Ni1jL3Bob3RvLmpwZyIsImF1ZCI6ImxhYmNvbXB1bW92aWx2bCIsImF1dGhfdGltZSI6MTUxMTYwMzUyNCwidXNlcl9pZCI6IjNwQWhhZmlaTDhVRTNMem1WT3JqdVoxc3FZbDIiLCJzdWIiOiIzcEFoYWZpWkw4VUUzTHptVk9yanVaMXNxWWwyIiwiaWF0IjoxNTExNjE1NDQ0LCJleHAiOjE1MTE2MTkwNDQsImVtYWlsIjoic3ZpdmlhbmFsb25kb25vQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTAwMTMzNjE0MDcxNTIyOTIxMDk1Il0sImVtYWlsIjpbInN2aXZpYW5hbG9uZG9ub0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.oOjs8xAR8Ym7wZ3fnG61ou7i2Btp27WPo_yNIk_0by8gg4VoeVoqDEj0MnltQo6beE0ykDC0LFLTL7ppZO0PSxenf1bAhQlCjwWZAidYbGHnaw0v9tqCPbD1_XccmB7zTAOcXTkDO-CHlCQECJr0WxKURPyOWGRlMdanak5I2ZNQnt34EJiDS7r2eXm9ZQDEEOEfWrWVNSUcxIdLZoikiq3zQ6abJvjdmei9eFcyomyNivUb1SNl1a_vjWBxvGLgbWO9_Gklb-pchzMAa0lQIvipzN9khWxzYqFbGOTeOXi69QzMaLGBIITqsG9jJk0teCryE9wzBAoVx0JIhpouJg"
+
+
 class model:
-			
+
 	def get_all_hotels_info(self,conexion):
 		hotels = conexion.db.hotels
   		rooms = conexion.db.rooms
-  
+
   		responseHotels = []
   		responseRooms = []
-  
+
 	  	for hotel in hotels.find():
 		    #hotel = hotels.find({Id_hotel: room['Id_Hotel']})
 		    for room in rooms.find({"Id_Hotel":hotel['Id_Hotel']}):
@@ -51,7 +69,7 @@ class model:
 
 		    add = True
 		    for reserve in collection_reservations.find({"Number_Room": room['Number_Room'], "State": "Active"}):
-		       
+
 		        Arrive_Date = datetime.strptime(reserve['Arrive_Date'], '%Y-%m-%d')
 		        Leave_Date = datetime.strptime(reserve['Leave_Date'], '%Y-%m-%d')
 
@@ -68,8 +86,8 @@ class model:
 		          break
 		      if validator:
 		        responseRooms.append({"room_type" : room['Room_Type'],"capacity" :room['Hosts'],"price" :room['Price'],"currency" :responseHotels['Currency'],"description":room["Description"],"room_thumbnail" :room['Room_Thumbnail'],"beds" :{"simple": room['Single_Bed'],"double": room['Double_Bed']}})
-		        
-		        
+
+
 		response = {"hotel_id" : responseHotels['Id_Hotel'],
 		                      "hotel_name" :responseHotels['Name'],
 		                      "hotel_location":{"address":responseHotels['Address'],
@@ -92,10 +110,10 @@ class model:
 	  date_leave_date = datetime.strptime(leave_date, '%Y-%m-%d')
 	  response = []
 	  for room in collection_rooms.find({"Id_Hotel":hotel_id , "Hosts": capacity , "Room_Type" : room_type, "Single_Bed" : simple,"Double_Bed" : double}):
-	      
+
 	      add = True
 	      for reserve in collection_reservations.find({"Number_Room": room['Number_Room'], "State": "Active"}):
-	         
+
 	          Arrive_Date = datetime.strptime(reserve['Arrive_Date'], '%Y-%m-%d')
 	          Leave_Date = datetime.strptime(reserve['Leave_Date'], '%Y-%m-%d')
 	          response.append({ "room" : room['Number_Room'],"Arrive_DateRes" : Arrive_Date,"date_arrive_date" : date_arrive_date,"Leave_DateRes" : Leave_Date})
@@ -117,7 +135,7 @@ class model:
 	        "Email":email,
 	        "Cell_Phone":phone_number})
 	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
-	  
+
 	  return ({"message": "Su reserva no fue realizada"})
 
 
@@ -138,7 +156,7 @@ class model:
 		        "Identification":reserve["Identification"],
 		        "Email":reserve["Email"],
 		        "Cell_Phone":reserve["Cell_Phone"]})
-		  	
+
 	  	return ({"Reservas": response})
 
 
@@ -152,9 +170,9 @@ class model:
 	  	hotels_response = []
 	  	rooms_response = []
 	 	for hotel in collection_hotels.find():
-	 		
+
 	 		for reserve in collection_reservations.find({"Email": email,"Id_Hotel":hotel["Id_Hotel"] }):
-	 				
+
 	 			for room in collection_rooms.find({"Id_Hotel":hotel["Id_Hotel"], "Number_Room" : reserve["Number_Room"] }):
 		 					rooms_response.append({"room_type" : room["Room_Type"],
 		 											"capacity": room["Hosts"],
@@ -198,23 +216,25 @@ class model:
       								"hotel_website": hotel["Hotel_Website"],
       								"reservation": response})
 			response = []
-			
 
-		  	
+
+
 	  	return ({"reservations": hotels_response})
 
 
 
 	def validate_user(self,token):
-
-	  	return (token)
+			decoded_token = auth.verify_id_token(token)
+			email = decoded_token['email']
+			print(email)
+			return (email)
 
 
   	def cancel_reservation(self, conexion, id_reservation):
 
   		collection_reservations = conexion.db.reservations
 
-  		
+
   		collection_reservations.update_one( { "Id_Reserva": id_reservation} , {"$set":{ "State" : "Cancel" }}, upsert=False )
   		if collection_reservations.find_one({"Id_Reserva": id_reservation})["State"] =="Active":
   			return ({"message": "Su reserva no fue cancelada exitosamente!!"})
