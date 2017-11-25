@@ -1,15 +1,15 @@
 
 from datetime import datetime
 
-class model:			
-
+class model:
+			
 	def get_all_hotels_info(self,conexion):
 		hotels = conexion.db.hotels
-		rooms = conexion.db.rooms
-
-		responseHotels = []
-		responseRooms = []
-
+  		rooms = conexion.db.rooms
+  
+  		responseHotels = []
+  		responseRooms = []
+  
 	  	for hotel in hotels.find():
 		    #hotel = hotels.find({Id_hotel: room['Id_Hotel']})
 		    for room in rooms.find({"Id_Hotel":hotel['Id_Hotel']}):
@@ -118,4 +118,58 @@ class model:
 	        "Cell_Phone":phone_number})
 	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
 	  
-	  return ({"message": "Su reserva no fue realizada"})
+	  return ({"message": arrive})
+
+
+	def list_reservations(self,conexion):
+
+  	  	collection_reservations = conexion.db.reservations
+
+	  	response = []
+	 	for reserve in collection_reservations.find():
+
+		       	response.append({"Id_Reserva":reserve["Id_Reserva"],
+		        "State":reserve["State"],
+		        "Id_Hotel":reserve["Id_Hotel"],
+		        "Number_Room":reserve["Number_Room"],
+		        "Arrive_Date":reserve["Arrive_Date"],
+		        "Leave_Date":reserve["Leave_Date"],
+		        "Document_Type":reserve["Document_Type"],
+		        "Identification":reserve["Identification"],
+		        "Email":reserve["Email"],
+		        "Cell_Phone":reserve["Cell_Phone"]})
+		  	
+	  	return ({"Reservas": response})
+
+
+	def list_reservations_by_user(self,conexion, email):
+
+  	  	collection_reservations = conexion.db.reservations
+  	  	collection_rooms = conexion.db.rooms
+
+	  	response = []
+	  	room = []
+	 	for reserve in collection_reservations.find({"Email": email, "State": "Active"}):
+	 		
+	 		
+	 		room.append(collection_rooms.find({"Id_Hotel":reserve["Id_Hotel"], "Number_Room":reserve["Number_Room"]})[0]["Room_Type"])
+
+	       	response.append(
+	       			{
+	        			"State":reserve["State"],
+	        			"reserve_id":reserve["Id_Reserva"],
+	        			"arrive_date":reserve["Arrive_Date"],
+	        			"leave_date":reserve["Leave_Date"],
+	        			"reservation": room})
+
+		  	
+	  	return ({"reservations": response})
+
+
+
+	def validate_user(self,token):
+
+	  	return (token)
+
+
+
