@@ -56,5 +56,13 @@ def get_my_reservations():
   return jsonify(m.list_reservations_by_user(mongo,email))
 
 
+@app.route('/V1/reservations', methods=['DELETE'])
+def cancel_reservation():
+  token = request.headers['Authorization']
+  email = m.validate_user(token)
+  id_reserva = request.args['reserve_id']
+  return jsonify(m.cancel_reservation(mongo , id_reserva))
+
+
 if __name__ == '__main__':
     app.run()
