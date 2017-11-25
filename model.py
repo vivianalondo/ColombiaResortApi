@@ -118,7 +118,7 @@ class model:
 	        "Cell_Phone":phone_number})
 	        return ({"reservation_id":"CR"+doc_id+hotel_id+room['Number_Room']+arrive})
 	  
-	  return ({"message": arrive})
+	  return ({"message": "Su reserva no fue realizada"})
 
 
 	def list_reservations(self,conexion):
@@ -146,24 +146,62 @@ class model:
 
   	  	collection_reservations = conexion.db.reservations
   	  	collection_rooms = conexion.db.rooms
+  	  	collection_hotels = conexion.db.hotels
 
 	  	response = []
-	  	room = []
-	 	for reserve in collection_reservations.find({"Email": email, "State": "Active"}):
+	  	hotels_response = []
+	  	rooms_response = []
+	 	for hotel in collection_hotels.find():
 	 		
-	 		
-	 		room.append(collection_rooms.find({"Id_Hotel":reserve["Id_Hotel"], "Number_Room":reserve["Number_Room"]})[0]["Room_Type"])
+	 		for reserve in collection_reservations.find({"Email": email,"Id_Hotel":hotel["Id_Hotel"] }):
+	 				
+	 			for room in collection_rooms.find({"Id_Hotel":hotel["Id_Hotel"], "Number_Room" : reserve["Number_Room"] }):
+		 					rooms_response.append({"room_type" : room["Room_Type"],
+		 											"capacity": room["Hosts"],
+	            									"price": room["Price"],
+	            									"currency": "COP",
+	           										"room_thumbnail": room["Room_Thumbnail"],
+	            									"description": room["Description"],
+	            									"beds": {
+	              										"simple":room["Single_Bed"],
+	            										"double": room["Double_Bed"]
+	            										}
+	            									})
+			 				state= ""
+					 		if reserve["State"] == "Active":
+					 			state = "A"
+					 			pass
+					 		else:
+					 			if reserve["State"] == "Cancel":
+					 				state = "C"
+					 				pass
+					 			else:
+					 				state = "D"
+						   	response.append({"state":state,
+					        			"reserve_id":reserve["Id_Reserva"],
+					        			"arrive_date":reserve["Arrive_Date"],
+					        			"leave_date":reserve["Leave_Date"],
+					        			"room": rooms_response
 
-	       	response.append(
-	       			{
-	        			"State":reserve["State"],
-	        			"reserve_id":reserve["Id_Reserva"],
-	        			"arrive_date":reserve["Arrive_Date"],
-	        			"leave_date":reserve["Leave_Date"],
-	        			"reservation": room})
+					        		})
+						   	rooms_response = []
+		   	hotels_response.append({"hotel_id": hotel["Id_Hotel"],
+      								"hotel_name": hotel["Name"],
+      								"hotel_thumbnail": hotel["Hotel_Thumbnail"],
+      								"hotel_location": {
+        								"address": hotel["Address"],
+       					 				"lat": hotel["Latitude"],
+        								"long": hotel["Longitude"]
+      									},
+      								"check_in": hotel["Check_In"],
+      								"check_out": hotel["Check_Out"],
+      								"hotel_website": hotel["Hotel_Website"],
+      								"reservation": response})
+			response = []
+			
 
 		  	
-	  	return ({"reservations": response})
+	  	return ({"reservations": hotels_response})
 
 
 
