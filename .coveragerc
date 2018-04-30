@@ -1,8 +1,0 @@
-[run]
-source =
-  ColombiaResortApiTest
-  app
-  conexion
-  model
-[report]
-ignore_errors = True
